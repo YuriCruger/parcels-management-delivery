@@ -5,6 +5,7 @@ import { EnvModule } from "./env/env.module";
 import { HttpModule } from "./http/http.module";
 import { AuthModule } from "./auth/auth.module";
 import { EventsModule } from "./events/events.module";
+import { GeocodingModule } from "./geocoding/geocoding.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EventsModule } from "./events/events.module";
     HttpModule,
     AuthModule,
     EventsModule,
+    GeocodingModule,
   ],
 })
 export class AppModule {}

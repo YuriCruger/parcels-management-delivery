@@ -9,6 +9,7 @@ export const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_BUCKET_NAME: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
+  GOOGLE_MAPS_API_KEY: z.string(),
 });
 
 export type Env = z.infer<typeof envSchema>;

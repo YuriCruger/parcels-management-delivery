@@ -25,8 +25,7 @@ describe("Create Recipient (E2E)", () => {
       .post("/recipients")
       .send({
         name: "John Doe",
-        latitude: -23.5505,
-        longitude: -46.6333,
+        address: "1600 Amphitheatre Parkway, Mountain View, CA",
       });
 
     expect(response.statusCode).toBe(201);
@@ -37,5 +36,7 @@ describe("Create Recipient (E2E)", () => {
     });
 
     expect(recipientOnDataBase).toBeTruthy();
+    expect(recipientOnDataBase?.latitude).toBe("37.423241");
+    expect(recipientOnDataBase?.longitude).toBe("-122.0840599");
   });
 });

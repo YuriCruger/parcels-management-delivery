@@ -30,9 +30,10 @@ import { ReadNotificationController } from "./controllers/read-notification.cont
 import { ReadNotificationUseCase } from "@/domain/notification/application/use-cases/read-notification";
 import { ChangeCourierPasswordController } from "./controllers/change-courier-password.controller";
 import { ChangeCourierPasswordUseCase } from "@/domain/delivery-management/application/use-cases/change-courier-password";
+import { GeocodingModule } from "../geocoding/geocoding.module";
 
 @Module({
-  imports: [DatabaseModule, CryptoGraphyModule, StorageModule],
+  imports: [DatabaseModule, CryptoGraphyModule, StorageModule, GeocodingModule],
   controllers: [
     CreateCourierController,
     AuthenticateController,
