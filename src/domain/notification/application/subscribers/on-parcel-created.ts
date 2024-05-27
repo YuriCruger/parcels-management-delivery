@@ -1,12 +1,14 @@
 import { DomainEvents } from "@/core/events/domain-events";
 import { EventHandler } from "@/core/events/event-handler";
-import { RecipientRepository } from "@/domain/delivery-management/application/repositories/recipient-repository";
+import { RecipientsRepository } from "@/domain/delivery-management/application/repositories/recipients-repository";
 import { ParcelCreatedEvent } from "@/domain/delivery-management/enterprise/events/parcel-created-event";
 import { SendNotificationUseCase } from "../use-cases/send-notification";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class OnParcelCreated implements EventHandler {
   constructor(
-    private recipientRepository: RecipientRepository,
+    private recipientsRepository: RecipientsRepository,
     private sendNotification: SendNotificationUseCase,
   ) {
     this.setupSubscriptions();
@@ -22,7 +24,7 @@ export class OnParcelCreated implements EventHandler {
   private async sendParcelDeliveredNotification({
     parcel,
   }: ParcelCreatedEvent) {
-    const recipient = await this.recipientRepository.findById(
+    const recipient = await this.recipientsRepository.findById(
       parcel.recipientId.toString(),
     );
 
@@ -35,4 +37,3 @@ export class OnParcelCreated implements EventHandler {
     }
   }
 }
-// TODO: Seria interessante ter alguma informação do pacote para enviar na notificação? Um nome ou um id de pedido que fosse possível rastrear. É ideal enviar o próprio ID desse pacote na notificação?

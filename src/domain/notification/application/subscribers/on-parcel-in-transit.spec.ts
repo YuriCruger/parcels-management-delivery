@@ -62,7 +62,7 @@ describe("On Parcel In Transit", () => {
     inMemoryParcelsRepository.create(parcel);
 
     parcel.assignedCourierId = new UniqueEntityID(courierId);
-    parcel.status = ParcelStatus.InTransit;
+    parcel.status = ParcelStatus.IN_TRANSIT;
 
     inMemoryParcelsRepository.save(parcel);
 

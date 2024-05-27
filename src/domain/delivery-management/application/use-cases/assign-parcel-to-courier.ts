@@ -4,6 +4,7 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { Parcel, ParcelStatus } from "../../enterprise/entities/parcel";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
+import { Injectable } from "@nestjs/common";
 
 interface AssignParcelToCourierUseCaseRequest {
   parcelId: string;
@@ -15,6 +16,7 @@ type AssignParcelToCourierUseCaseResponse = Either<
   { parcel: Parcel }
 >;
 
+@Injectable()
 export class AssignParcelToCourierUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 
@@ -31,13 +33,11 @@ export class AssignParcelToCourierUseCase {
     if (parcel.assignedCourierId) {
       return left(new NotAllowedError());
     }
-
     parcel.assignedCourierId = new UniqueEntityID(courierId);
-    parcel.status = ParcelStatus.InTransit;
+    parcel.status = ParcelStatus.IN_TRANSIT;
 
     await this.parcelsRepository.save(parcel);
 
     return right({ parcel });
   }
 }
-// TODO: Watched list?

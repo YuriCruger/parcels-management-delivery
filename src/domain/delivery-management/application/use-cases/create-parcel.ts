@@ -2,6 +2,7 @@ import { Either, right } from "@/core/either";
 import { Parcel, ParcelStatus } from "../../enterprise/entities/parcel";
 import { ParcelsRepository } from "../repositories/parcels-repository";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { Injectable } from "@nestjs/common";
 
 interface CreateParcelUseCaseRequest {
   recipientId: string;
@@ -9,6 +10,7 @@ interface CreateParcelUseCaseRequest {
 
 type CreateParcelUseCaseResponse = Either<null, { parcel: Parcel }>;
 
+@Injectable()
 export class CreateParcelUseCase {
   constructor(private parcelsRepository: ParcelsRepository) {}
 
@@ -17,9 +19,7 @@ export class CreateParcelUseCase {
   }: CreateParcelUseCaseRequest): Promise<CreateParcelUseCaseResponse> {
     const parcel = Parcel.create({
       recipientId: new UniqueEntityID(recipientId),
-      assignedCourierId: null,
-      status: ParcelStatus.AwaitingPickup,
-      createdAt: new Date(),
+      status: ParcelStatus.AWAITING_PICKUP,
     });
 
     await this.parcelsRepository.create(parcel);

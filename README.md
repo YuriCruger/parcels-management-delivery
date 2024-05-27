@@ -48,8 +48,8 @@ Este sistema permite a gestão de entregas, incluindo funcionalidades para login
 
 ### Regras da Aplicação
 
-- [ ] Tipos de Usuário: Entregador e/ou Admin
-- [ ] Login com CPF e Senha
+- [x] Tipos de Usuário: Entregador e/ou Admin
+- [x] Login com CPF e Senha
 - [x] CRUD dos Entregadores
 - [x] CRUD das Encomendas
 - [x] CRUD dos Destinatários
@@ -58,18 +58,17 @@ Este sistema permite a gestão de entregas, incluindo funcionalidades para login
 - [x] Marcar encomenda como entregue
 - [x] Marcar encomenda como devolvida
 - [X] Listar encomendas com endereços de entrega próximos ao local do entregador
-- [ ] Alterar a senha de um usuário
+- [x] Alterar a senha de um usuário
 - [x] Listar as entregas de um usuário
 - [x] Notificar o destinatário a cada alteração no status da encomenda
 
 ### Regras de Negócio
 
-- [ ] Somente usuário do tipo admin pode realizar operações de CRUD nas encomendas
-- [ ] Somente usuário do tipo admin pode realizar operações de CRUD dos entregadores
-- [ ] Somente usuário do tipo admin pode realizar operações de CRUD dos destinatários
+- [x] Somente usuário do tipo admin pode realizar operações de CRUD nas encomendas
+- [x] Somente usuário do tipo admin pode realizar operações de CRUD dos entregadores
 - [x] Para marcar uma encomenda como entregue é obrigatório o envio de uma foto
 - [x] Somente o entregador que retirou a encomenda pode marcá-la como entregue
-- [ ] Somente o admin pode alterar a senha de um usuário
+- [x] Somente o admin pode alterar a senha de um usuário
 - [x] Não deve ser possível um entregador listar as encomendas de outro entregador
 
 ## Conceitos Praticados

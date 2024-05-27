@@ -4,6 +4,9 @@ import {
   ParcelProps,
   ParcelStatus,
 } from "@/domain/delivery-management/enterprise/entities/parcel";
+import { PrismaParcelMapper } from "@/infra/database/prisma/mappers/prisma-parcel-mapper";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
+import { Injectable } from "@nestjs/common";
 
 export function makeParcel(
   override: Partial<ParcelProps> = {},
@@ -13,7 +16,7 @@ export function makeParcel(
     {
       recipientId: new UniqueEntityID(),
       assignedCourierId: null,
-      status: ParcelStatus.AwaitingPickup,
+      status: ParcelStatus.AWAITING_PICKUP,
       createdAt: new Date(),
       ...override,
     },
@@ -21,4 +24,19 @@ export function makeParcel(
   );
 
   return parcel;
+}
+
+@Injectable()
+export class ParcelFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaParcel(data: Partial<ParcelProps> = {}): Promise<Parcel> {
+    const parcel = makeParcel(data);
+
+    await this.prisma.parcel.create({
+      data: PrismaParcelMapper.toPrisma(parcel),
+    });
+
+    return parcel;
+  }
 }

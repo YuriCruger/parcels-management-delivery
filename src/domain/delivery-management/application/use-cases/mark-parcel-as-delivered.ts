@@ -5,6 +5,7 @@ import { Parcel, ParcelStatus } from "../../enterprise/entities/parcel";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { InvalidFileTypeError } from "./errors/invalid-file-type-error";
 import { UploadParams, Uploader } from "../storage/uploader";
+import { Injectable } from "@nestjs/common";
 
 interface MarkParcelAsDeliveredUseCaseRequest {
   parcelId: string;
@@ -17,6 +18,7 @@ type MarkParcelAsDeliveredUseCaseResponse = Either<
   { parcel: Parcel }
 >;
 
+@Injectable()
 export class MarkParcelAsDeliveredUseCase {
   constructor(
     private parcelsRepository: ParcelsRepository,
@@ -51,7 +53,7 @@ export class MarkParcelAsDeliveredUseCase {
     });
 
     parcel.url = url;
-    parcel.status = ParcelStatus.Delivered;
+    parcel.status = ParcelStatus.DELIVERED;
 
     await this.parcelsRepository.save(parcel);
 

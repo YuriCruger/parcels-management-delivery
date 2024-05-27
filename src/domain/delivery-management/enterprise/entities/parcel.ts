@@ -4,16 +4,17 @@ import { ParcelCreatedEvent } from "../events/parcel-created-event";
 import { ParcelInTransitEvent } from "../events/parcel-in-transit-event";
 import { ParcelDeliveredEvent } from "../events/parcel-delivered-event";
 import { ParcelReturnedEvent } from "../events/parcel-returned-event";
+import { Optional } from "@/core/types/optional";
 
 export enum ParcelStatus {
-  AwaitingPickup = "awaiting_pickup",
-  InTransit = "in_transit",
-  Delivered = "delivered",
-  Returned = "returned",
+  AWAITING_PICKUP = "AWAITING_PICKUP",
+  IN_TRANSIT = "IN_TRANSIT",
+  DELIVERED = "DELIVERED",
+  RETURNED = "RETURNED",
 }
 
 export interface ParcelProps {
-  assignedCourierId: UniqueEntityID | null;
+  assignedCourierId?: UniqueEntityID | null;
   recipientId: UniqueEntityID;
   status: ParcelStatus;
   url?: string;
@@ -40,19 +41,19 @@ export class Parcel extends AggregateRoot<ParcelProps> {
   }
 
   set status(status: ParcelStatus) {
-    if (status === ParcelStatus.Delivered && !this.props.url) {
+    if (status === ParcelStatus.DELIVERED && !this.props.url) {
       return;
     }
 
-    if (status === ParcelStatus.InTransit) {
+    if (status === ParcelStatus.IN_TRANSIT) {
       this.addDomainEvent(new ParcelInTransitEvent(this));
     }
 
-    if (status === ParcelStatus.Delivered) {
+    if (status === ParcelStatus.DELIVERED) {
       this.addDomainEvent(new ParcelDeliveredEvent(this));
     }
 
-    if (status === ParcelStatus.Returned) {
+    if (status === ParcelStatus.RETURNED) {
       this.addDomainEvent(new ParcelReturnedEvent(this));
     }
 
@@ -81,12 +82,15 @@ export class Parcel extends AggregateRoot<ParcelProps> {
     this.props.updatedAt = new Date();
   }
 
-  static create(props: ParcelProps, id?: UniqueEntityID) {
+  static create(
+    props: Optional<ParcelProps, "createdAt" | "assignedCourierId">,
+    id?: UniqueEntityID,
+  ) {
     const parcel = new Parcel(
       {
         ...props,
         assignedCourierId: props.assignedCourierId ?? null,
-        updatedAt: props.updatedAt ?? null,
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     );

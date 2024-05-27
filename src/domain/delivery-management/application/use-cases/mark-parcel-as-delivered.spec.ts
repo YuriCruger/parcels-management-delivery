@@ -42,7 +42,7 @@ describe("Mark Parcel as Delivered", () => {
 
     expect(result.isRight()).toBe(true);
     expect(inMemoryParcelsRepository.items[0].status).toEqual(
-      ParcelStatus.Delivered,
+      ParcelStatus.DELIVERED,
     );
     expect(fakeUploader.uploads).toHaveLength(1);
     expect(fakeUploader.uploads[0]).toEqual(

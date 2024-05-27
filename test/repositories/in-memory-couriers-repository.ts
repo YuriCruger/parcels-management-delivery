@@ -14,8 +14,26 @@ export class InMemoryCouriersRepository implements CouriersRepository {
     return courier;
   }
 
+  async findByPin(pin: string) {
+    const courier = this.items.find((item) => item.pin === pin);
+
+    if (!courier) {
+      return null;
+    }
+
+    return courier;
+  }
+
   async create(courier: Courier) {
     this.items.push(courier);
+  }
+
+  async save(courier: Courier) {
+    const itemIndex = this.items.findIndex((item) => item.id === courier.id);
+
+    if (itemIndex >= 0) {
+      this.items[itemIndex] = courier;
+    }
   }
 
   async delete(courier: Courier) {

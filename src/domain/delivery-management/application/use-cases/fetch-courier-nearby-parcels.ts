@@ -1,21 +1,26 @@
 import { Either, right } from "@/core/either";
 import { Parcel } from "../../enterprise/entities/parcel";
 import { ParcelsRepository } from "../repositories/parcels-repository";
-import { RecipientRepository } from "../repositories/recipient-repository";
+import { RecipientsRepository } from "../repositories/recipients-repository";
+import { Injectable } from "@nestjs/common";
 
-interface FetchParcelsUseCaseRequest {
+interface FetchCourierNearbyParcelsUseCaseRequest {
   courierId: string;
   courierLatitude: number;
   courierLongitude: number;
   page: number;
 }
 
-type FetchParcelsUseCaseResponse = Either<null, { courierParcels: Parcel[] }>;
+type FetchCourierNearbyParcelsUseCaseResponse = Either<
+  null,
+  { courierNearbyParcels: Parcel[] }
+>;
 
-export class FetchParcelsUseCase {
+@Injectable()
+export class FetchCourierNearbyParcelsUseCase {
   constructor(
     private parcelsRepository: ParcelsRepository,
-    private recipientRepository: RecipientRepository,
+    private recipientsRepository: RecipientsRepository,
   ) {}
 
   async execute({
@@ -23,8 +28,8 @@ export class FetchParcelsUseCase {
     courierLatitude,
     courierLongitude,
     page,
-  }: FetchParcelsUseCaseRequest): Promise<FetchParcelsUseCaseResponse> {
-    const nearbyRecipients = await this.recipientRepository.findManyNearBy({
+  }: FetchCourierNearbyParcelsUseCaseRequest): Promise<FetchCourierNearbyParcelsUseCaseResponse> {
+    const nearbyRecipients = await this.recipientsRepository.findManyNearBy({
       latitude: courierLatitude,
       longitude: courierLongitude,
     });
@@ -36,12 +41,12 @@ export class FetchParcelsUseCase {
       },
     );
 
-    const parcelsNearCourier = courierParcels.filter((parcel) => {
+    const courierNearbyParcels = courierParcels.filter((parcel) => {
       return nearbyRecipients.some((recipient) => {
         return recipient.id.toString() === parcel.recipientId.toString();
       });
     });
 
-    return right({ courierParcels: parcelsNearCourier });
+    return right({ courierNearbyParcels });
   }
 }

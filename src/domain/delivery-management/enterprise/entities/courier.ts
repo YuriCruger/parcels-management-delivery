@@ -1,11 +1,15 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { Optional } from "@/core/types/optional";
 
 export interface CourierProps {
   name: string;
   pin: string;
-  latitude: string;
-  longitude: string;
+  password: string;
+  latitude: number;
+  longitude: number;
+  createdAt: Date;
+  updatedAt?: Date | null;
 }
 
 export class Courier extends Entity<CourierProps> {
@@ -17,6 +21,15 @@ export class Courier extends Entity<CourierProps> {
     return this.props.pin;
   }
 
+  get password() {
+    return this.props.password;
+  }
+
+  set password(password: string) {
+    this.props.password = password;
+    this.touch();
+  }
+
   get latitude() {
     return this.props.latitude;
   }
@@ -25,8 +38,29 @@ export class Courier extends Entity<CourierProps> {
     return this.props.longitude;
   }
 
-  static create(props: CourierProps, id?: UniqueEntityID) {
-    const courier = new Courier(props, id);
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date();
+  }
+
+  static create(
+    props: Optional<CourierProps, "createdAt">,
+    id?: UniqueEntityID,
+  ) {
+    const courier = new Courier(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    );
 
     return courier;
   }

@@ -1,12 +1,14 @@
 import { DomainEvents } from "@/core/events/domain-events";
 import { EventHandler } from "@/core/events/event-handler";
-import { RecipientRepository } from "@/domain/delivery-management/application/repositories/recipient-repository";
+import { RecipientsRepository } from "@/domain/delivery-management/application/repositories/recipients-repository";
 import { ParcelDeliveredEvent } from "@/domain/delivery-management/enterprise/events/parcel-delivered-event";
 import { SendNotificationUseCase } from "@/domain/notification/application/use-cases/send-notification";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class OnParcelAsDelivered implements EventHandler {
   constructor(
-    private recipientRepository: RecipientRepository,
+    private recipientsRepository: RecipientsRepository,
     private sendNotification: SendNotificationUseCase,
   ) {
     this.setupSubscriptions();
@@ -22,7 +24,7 @@ export class OnParcelAsDelivered implements EventHandler {
   private async sendParcelDeliveredNotification({
     parcel,
   }: ParcelDeliveredEvent) {
-    const recipient = await this.recipientRepository.findById(
+    const recipient = await this.recipientsRepository.findById(
       parcel.recipientId.toString(),
     );
     if (recipient) {

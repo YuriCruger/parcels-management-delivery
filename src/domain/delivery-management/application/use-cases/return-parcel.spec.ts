@@ -29,7 +29,7 @@ describe("Return Parcel", () => {
 
     expect(result.isRight()).toBe(true);
     expect(inMemoryParcelsRepository.items[0].status).toEqual(
-      ParcelStatus.Returned,
+      ParcelStatus.RETURNED,
     );
   });
 

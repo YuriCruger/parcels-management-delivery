@@ -38,8 +38,6 @@ export class InMemoryParcelsRepository implements ParcelsRepository {
     }
 
     DomainEvents.dispatchEventsForAggregate(parcel.id);
-
-    return parcel;
   }
 
   async delete(parcel: Parcel) {

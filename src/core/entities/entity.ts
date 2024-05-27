@@ -25,4 +25,3 @@ export abstract class Entity<Props> {
     return false;
   }
 }
-// TODO: Como vai ser e onde vai ser utilizado o equals.

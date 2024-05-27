@@ -47,7 +47,7 @@ describe("On Parcel Returned", () => {
     });
     inMemoryParcelsRepository.create(parcel);
 
-    parcel.status = ParcelStatus.Returned;
+    parcel.status = ParcelStatus.RETURNED;
 
     inMemoryParcelsRepository.save(parcel);
 

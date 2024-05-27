@@ -38,7 +38,7 @@ describe("Assign Parcel to Courier", () => {
       new UniqueEntityID("courier-1"),
     );
     expect(inMemoryParcelsRepository.items[0].status).toEqual(
-      ParcelStatus.InTransit,
+      ParcelStatus.IN_TRANSIT,
     );
   });
 

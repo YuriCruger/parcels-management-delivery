@@ -1,6 +1,7 @@
 import { Either, right } from "@/core/either";
-import { RecipientRepository } from "../repositories/recipient-repository";
+import { RecipientsRepository } from "../repositories/recipients-repository";
 import { Recipient } from "../../enterprise/entities/recipient";
+import { Injectable } from "@nestjs/common";
 
 interface CreateRecipientUseCaseRequest {
   name: string;
@@ -10,8 +11,9 @@ interface CreateRecipientUseCaseRequest {
 
 type CreateRecipientUseCaseResponse = Either<null, { recipient: Recipient }>;
 
+@Injectable()
 export class CreateRecipientUseCase {
-  constructor(private recipientRepository: RecipientRepository) {}
+  constructor(private recipientsRepository: RecipientsRepository) {}
 
   async execute({
     name,
@@ -20,7 +22,7 @@ export class CreateRecipientUseCase {
   }: CreateRecipientUseCaseRequest): Promise<CreateRecipientUseCaseResponse> {
     const recipient = Recipient.create({ name, latitude, longitude });
 
-    await this.recipientRepository.create(recipient);
+    await this.recipientsRepository.create(recipient);
 
     return right({
       recipient,

@@ -1,11 +1,11 @@
 import {
   FindManyNearbyParams,
-  RecipientRepository,
-} from "@/domain/delivery-management/application/repositories/recipient-repository";
+  RecipientsRepository,
+} from "@/domain/delivery-management/application/repositories/recipients-repository";
 import { Recipient } from "@/domain/delivery-management/enterprise/entities/recipient";
 import { getDistanceBetweenCoordinates } from "test/utils/get-distance-between-coordinates";
 
-export class InMemoryRecipientsRepository implements RecipientRepository {
+export class InMemoryRecipientsRepository implements RecipientsRepository {
   public items: Recipient[] = [];
 
   async findById(id: string): Promise<Recipient | null> {

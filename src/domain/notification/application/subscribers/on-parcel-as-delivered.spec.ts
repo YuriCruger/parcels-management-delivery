@@ -59,12 +59,12 @@ describe("Mark Parcel as Delivered", () => {
     inMemoryParcelsRepository.create(parcel);
 
     parcel.url = "fake-url";
-    parcel.status = ParcelStatus.Delivered;
+    parcel.status = ParcelStatus.DELIVERED;
 
     inMemoryParcelsRepository.save(parcel);
 
     expect(inMemoryParcelsRepository.items[0].status).toEqual(
-      ParcelStatus.Delivered,
+      ParcelStatus.DELIVERED,
     );
     await waitFor(() => {
       expect(sendNotificationExecuteSpy).toHaveBeenCalled();
